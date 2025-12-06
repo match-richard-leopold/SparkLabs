@@ -1,0 +1,24 @@
+# Git
+.git/
+.gitignore
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+# Build outputs
+**/bin/
+**/obj/
+
+# Test results
+**/TestResults/
+
+# Documentation
+*.md
+
+# Local environment
+**/.env
+**/appsettings.*.local.json

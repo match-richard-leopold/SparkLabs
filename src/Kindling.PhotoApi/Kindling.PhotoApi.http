@@ -1,0 +1,6 @@
+@Kindling.PhotoApi_HostAddress = http://localhost:5181
+
+GET {{Kindling.PhotoApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
