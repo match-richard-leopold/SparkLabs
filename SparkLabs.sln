@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparkLabs.ProfileApi.Tests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparkLabs.PhotoApi.Tests", "test\SparkLabs.PhotoApi.Tests\SparkLabs.PhotoApi.Tests.csproj", "{917A2116-5E08-459C-A421-B5464BB37F29}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparkLabs.Worker", "src\SparkLabs.Worker\SparkLabs.Worker.csproj", "{7FDB655F-01AA-4760-8464-ED5D4D5EBE09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +91,18 @@ Global
 		{917A2116-5E08-459C-A421-B5464BB37F29}.Release|x64.Build.0 = Release|Any CPU
 		{917A2116-5E08-459C-A421-B5464BB37F29}.Release|x86.ActiveCfg = Release|Any CPU
 		{917A2116-5E08-459C-A421-B5464BB37F29}.Release|x86.Build.0 = Release|Any CPU
+		{7FDB655F-01AA-4760-8464-ED5D4D5EBE09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FDB655F-01AA-4760-8464-ED5D4D5EBE09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FDB655F-01AA-4760-8464-ED5D4D5EBE09}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7FDB655F-01AA-4760-8464-ED5D4D5EBE09}.Debug|x64.Build.0 = Debug|Any CPU
+		{7FDB655F-01AA-4760-8464-ED5D4D5EBE09}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7FDB655F-01AA-4760-8464-ED5D4D5EBE09}.Debug|x86.Build.0 = Debug|Any CPU
+		{7FDB655F-01AA-4760-8464-ED5D4D5EBE09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FDB655F-01AA-4760-8464-ED5D4D5EBE09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FDB655F-01AA-4760-8464-ED5D4D5EBE09}.Release|x64.ActiveCfg = Release|Any CPU
+		{7FDB655F-01AA-4760-8464-ED5D4D5EBE09}.Release|x64.Build.0 = Release|Any CPU
+		{7FDB655F-01AA-4760-8464-ED5D4D5EBE09}.Release|x86.ActiveCfg = Release|Any CPU
+		{7FDB655F-01AA-4760-8464-ED5D4D5EBE09}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,5 +113,6 @@ Global
 		{5E4FD4BB-C11E-4218-8345-362FD6893B88} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{A5D3C538-64FE-4067-81B6-97D189109C80} = {0C88DD14-F956-CE84-757C-A364CCF449FC}
 		{917A2116-5E08-459C-A421-B5464BB37F29} = {0C88DD14-F956-CE84-757C-A364CCF449FC}
+		{7FDB655F-01AA-4760-8464-ED5D4D5EBE09} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 	EndGlobalSection
 EndGlobal
