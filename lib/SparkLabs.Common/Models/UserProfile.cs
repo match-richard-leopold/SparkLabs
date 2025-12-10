@@ -3,6 +3,7 @@ namespace SparkLabs.Common.Models;
 public class UserProfile
 {
     public Guid Id { get; set; }
+    public Brand BrandId { get; set; }
     public required string Email { get; set; }
     public required string DisplayName { get; set; }
     public DateOnly DateOfBirth { get; set; }
