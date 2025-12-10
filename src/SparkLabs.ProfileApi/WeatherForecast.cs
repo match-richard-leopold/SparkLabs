@@ -1,4 +1,4 @@
-namespace Kindling.ProfileApi;
+namespace SparkLabs.ProfileApi;
 
 public class WeatherForecast
 {

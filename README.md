@@ -1,8 +1,8 @@
-# Kindling
+# SparkLabs
 
 > "Can't start a fire without a spark"
 
-A fictional web-scale dating app backend for technical interview scenarios.
+A fictional web-scale dating app backend for technical interview scenarios. SparkLabs is the parent company with multiple brands: Kindling, Spark, Flame.
 
 ## Architecture
 
@@ -26,36 +26,55 @@ A fictional web-scale dating app backend for technical interview scenarios.
         │  :5432       │               │   :4566    │
         │  (profiles)  │               │  (S3, etc) │
         └──────────────┘               └────────────┘
+                                              │
+                        ┌─────────────────────┘
+                        ▼
+                 ┌────────────┐
+                 │   Kafka    │
+                 │   :9092    │
+                 └────────────┘
 ```
 
 ## Quick Start
 
 ### Prerequisites
 
-- .NET 8 SDK
+- .NET 9 SDK
 - Docker & Docker Compose
 
 ### Start Infrastructure
 
+```bash
+./bin/start-infra.sh
+```
+
+Or manually:
 ```bash
 cd deploy
 docker-compose up -d
 ```
 
 This starts:
-- **PostgreSQL** on `localhost:5432` (user: `kindling`, password: `kindling`)
-- **LocalStack** on `localhost:4566` (S3 bucket: `kindling-photos`)
+- **PostgreSQL** on `localhost:5432` (user: `sparklabs`, password: `sparklabs`)
+- **LocalStack** on `localhost:4566` (S3 bucket: `sparklabs-photos`)
+- **Kafka** on `localhost:9092` (topic: `message-processing`)
 - **Aspire Dashboard** on `http://localhost:18888`
+
+### Stop Infrastructure
+
+```bash
+./bin/stop-infra.sh
+```
 
 ### Run the APIs
 
 ```bash
 # Terminal 1 - Profile API
-cd src/Kindling.ProfileApi
+cd src/SparkLabs.ProfileApi
 dotnet run
 
 # Terminal 2 - Photo API
-cd src/Kindling.PhotoApi
+cd src/SparkLabs.PhotoApi
 dotnet run
 ```
 
@@ -68,27 +87,27 @@ dotnet run
 ## Project Structure
 
 ```
-Kindling/
+SparkLabs/
 ├── lib/
-│   └── Kindling.Common/           # Shared DTOs, contracts
+│   └── SparkLabs.Common/            # Shared DTOs, contracts, telemetry
 ├── src/
-│   ├── Kindling.ProfileApi/       # User profiles (PostgreSQL)
-│   └── Kindling.PhotoApi/         # Photo management (S3)
+│   ├── SparkLabs.ProfileApi/        # User profiles (PostgreSQL)
+│   └── SparkLabs.PhotoApi/          # Photo management (S3)
 ├── test/
-│   ├── Kindling.ProfileApi.Tests/
-│   └── Kindling.PhotoApi.Tests/
-├── bin/                           # Utility scripts
+│   ├── SparkLabs.ProfileApi.Tests/
+│   └── SparkLabs.PhotoApi.Tests/
+├── bin/                             # Utility scripts
 ├── deploy/
 │   ├── docker-compose.yml
-│   └── localstack-init/           # S3/DynamoDB bootstrap
-└── Kindling.sln
+│   └── localstack-init/             # S3/DynamoDB bootstrap
+└── SparkLabs.sln
 ```
 
 ## Services
 
 ### Profile API
 
-Manages user profiles with PostgreSQL storage.
+Manages user profiles with PostgreSQL storage (using Dapper).
 
 | Endpoint | Description |
 |----------|-------------|
@@ -112,12 +131,12 @@ Manages photo uploads with S3 storage.
 
 Pre-created by `localstack-init/init-aws.sh`:
 
-- **S3 Bucket**: `kindling-photos`
+- **S3 Bucket**: `sparklabs-photos`
 - **DynamoDB Table**: `PhotoMetadata` (UserId/PhotoId keys)
 
 Access via AWS CLI:
 ```bash
-aws --endpoint-url=http://localhost:4566 s3 ls s3://kindling-photos
+aws --endpoint-url=http://localhost:4566 s3 ls s3://sparklabs-photos
 aws --endpoint-url=http://localhost:4566 dynamodb scan --table-name PhotoMetadata
 ```
 

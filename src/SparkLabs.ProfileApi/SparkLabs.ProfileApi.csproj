@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\lib\Kindling.Common\Kindling.Common.csproj" />
+    <ProjectReference Include="..\..\lib\SparkLabs.Common\SparkLabs.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-namespace Kindling.Common.Configuration;
+namespace SparkLabs.Common.Configuration;
 
 public class AwsSettings
 {
@@ -14,7 +14,7 @@ public class AwsSettings
 
 public class S3Settings
 {
-    public string PhotoBucket { get; set; } = "kindling-photos";
+    public string PhotoBucket { get; set; } = "sparklabs-photos";
 }
 
 public class DynamoDbSettings

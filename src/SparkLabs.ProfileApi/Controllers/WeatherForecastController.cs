@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Kindling.ProfileApi.Controllers;
+namespace SparkLabs.ProfileApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]

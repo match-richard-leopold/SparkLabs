@@ -1,9 +1,9 @@
-using Kindling.Common.Telemetry;
+using SparkLabs.Common.Telemetry;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddKindlingTelemetry("Kindling.PhotoApi", builder.Configuration);
-builder.Logging.AddKindlingLogging("Kindling.PhotoApi", builder.Configuration);
+builder.Services.AddSparkLabsTelemetry("SparkLabs.ProfileApi", builder.Configuration);
+builder.Logging.AddSparkLabsLogging("SparkLabs.ProfileApi", builder.Configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

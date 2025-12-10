@@ -1,4 +1,4 @@
-namespace Kindling.Common.Configuration;
+namespace SparkLabs.Common.Configuration;
 
 public class TelemetrySettings
 {

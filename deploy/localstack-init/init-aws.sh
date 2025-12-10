@@ -3,8 +3,8 @@
 echo "Initializing LocalStack resources..."
 
 # Create S3 bucket for photos
-awslocal s3 mb s3://kindling-photos
-echo "Created S3 bucket: kindling-photos"
+awslocal s3 mb s3://sparklabs-photos
+echo "Created S3 bucket: sparklabs-photos"
 
 # Create DynamoDB table for photo metadata (available for candidates to use)
 awslocal dynamodb create-table \

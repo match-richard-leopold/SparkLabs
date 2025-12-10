@@ -1,4 +1,4 @@
-namespace Kindling.Common.Configuration;
+namespace SparkLabs.Common.Configuration;
 
 public class KafkaSettings
 {
@@ -10,5 +10,5 @@ public class KafkaSettings
 
 public class KafkaTopics
 {
-    public string PhotoProcessing { get; set; } = "photo-processing";
+    public string MessageProcessing { get; set; } = "message-processing";
 }

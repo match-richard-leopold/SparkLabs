@@ -1,6 +1,0 @@
-@Kindling.ProfileApi_HostAddress = http://localhost:5153
-
-GET {{Kindling.ProfileApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

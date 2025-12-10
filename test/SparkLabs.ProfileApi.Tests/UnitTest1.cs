@@ -1,4 +1,4 @@
-namespace Kindling.PhotoApi.Tests;
+namespace SparkLabs.ProfileApi.Tests;
 
 public class UnitTest1
 {

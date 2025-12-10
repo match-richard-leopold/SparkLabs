@@ -5,19 +5,19 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{3A8DF596-E814-FECC-DD4B-D8EF8AAC1A0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kindling.Common", "lib\Kindling.Common\Kindling.Common.csproj", "{6B0CC7F9-D9B3-4628-B49E-88F2CB9AECF5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparkLabs.Common", "lib\SparkLabs.Common\SparkLabs.Common.csproj", "{6B0CC7F9-D9B3-4628-B49E-88F2CB9AECF5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kindling.ProfileApi", "src\Kindling.ProfileApi\Kindling.ProfileApi.csproj", "{2E95CCA2-542C-404D-A714-AE7B0FB7A16C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparkLabs.ProfileApi", "src\SparkLabs.ProfileApi\SparkLabs.ProfileApi.csproj", "{2E95CCA2-542C-404D-A714-AE7B0FB7A16C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kindling.PhotoApi", "src\Kindling.PhotoApi\Kindling.PhotoApi.csproj", "{5E4FD4BB-C11E-4218-8345-362FD6893B88}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparkLabs.PhotoApi", "src\SparkLabs.PhotoApi\SparkLabs.PhotoApi.csproj", "{5E4FD4BB-C11E-4218-8345-362FD6893B88}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0C88DD14-F956-CE84-757C-A364CCF449FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kindling.ProfileApi.Tests", "test\Kindling.ProfileApi.Tests\Kindling.ProfileApi.Tests.csproj", "{A5D3C538-64FE-4067-81B6-97D189109C80}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparkLabs.ProfileApi.Tests", "test\SparkLabs.ProfileApi.Tests\SparkLabs.ProfileApi.Tests.csproj", "{A5D3C538-64FE-4067-81B6-97D189109C80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kindling.PhotoApi.Tests", "test\Kindling.PhotoApi.Tests\Kindling.PhotoApi.Tests.csproj", "{917A2116-5E08-459C-A421-B5464BB37F29}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparkLabs.PhotoApi.Tests", "test\SparkLabs.PhotoApi.Tests\SparkLabs.PhotoApi.Tests.csproj", "{917A2116-5E08-459C-A421-B5464BB37F29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

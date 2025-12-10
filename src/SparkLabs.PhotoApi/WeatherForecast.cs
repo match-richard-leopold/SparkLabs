@@ -1,4 +1,4 @@
-namespace Kindling.PhotoApi;
+namespace SparkLabs.PhotoApi;
 
 public class WeatherForecast
 {

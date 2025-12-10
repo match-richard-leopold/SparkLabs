@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Kindling.PhotoApi.Controllers;
+namespace SparkLabs.PhotoApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]

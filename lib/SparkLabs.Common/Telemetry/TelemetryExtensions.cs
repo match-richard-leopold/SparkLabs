@@ -1,4 +1,4 @@
-using Kindling.Common.Configuration;
+using SparkLabs.Common.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -7,13 +7,13 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
-namespace Kindling.Common.Telemetry;
+namespace SparkLabs.Common.Telemetry;
 
 public static class TelemetryExtensions
 {
     private const string DefaultOtlpEndpoint = "http://localhost:4317";
 
-    public static IServiceCollection AddKindlingTelemetry(
+    public static IServiceCollection AddSparkLabsTelemetry(
         this IServiceCollection services,
         string serviceName,
         IConfiguration configuration)
@@ -60,7 +60,7 @@ public static class TelemetryExtensions
         return services;
     }
 
-    public static ILoggingBuilder AddKindlingLogging(
+    public static ILoggingBuilder AddSparkLabsLogging(
         this ILoggingBuilder builder,
         string serviceName,
         IConfiguration configuration)
