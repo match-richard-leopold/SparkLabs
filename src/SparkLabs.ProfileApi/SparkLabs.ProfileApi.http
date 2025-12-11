@@ -1,6 +1,76 @@
-@SparkLabs.ProfileApi_HostAddress = http://localhost:5001
+@baseUrl = http://localhost:5001
 
-GET {{SparkLabs.ProfileApi_HostAddress}}/weatherforecast/
-Accept: application/json
+# ============================================================================
+# IMPERSONATION
+# Change this to act as different users (simulates JWT auth)
+# ============================================================================
+@currentUser = 11111111-1111-1111-1111-111111111111
 
-###
+# Seed user IDs for reference:
+# Kindling (Brand 1): 11111111-1111-1111-1111-11111111111[1-4] (Luna, Orion, Celeste, Atlas)
+# Spark (Brand 2):    22222222-2222-2222-2222-22222222222[1-4] (Alex, Jamie, Morgan, Taylor)
+# Flame (Brand 3):    33333333-3333-3333-3333-33333333333[1-4] (Jordan, Casey, Riley, Sam)
+
+# ============================================================================
+# PROFILES
+# ============================================================================
+
+### Get my profile
+GET {{baseUrl}}/profiles/me
+X-Impersonate-User: {{currentUser}}
+
+### Get profile by ID
+GET {{baseUrl}}/profiles/11111111-1111-1111-1111-111111111112
+
+### Get profiles by brand (Kindling = 1, Spark = 2, Flame = 3)
+GET {{baseUrl}}/profiles/brand/1?limit=10&offset=0
+
+### Create a new profile
+POST {{baseUrl}}/profiles
+Content-Type: application/json
+
+{
+  "brandId": 1,
+  "email": "newuser@kindling.example",
+  "displayName": "NewUser",
+  "dateOfBirth": "1995-06-15",
+  "bio": "Just joined!",
+  "location": "New York, NY",
+  "gender": 1,
+  "seekGender": 2
+}
+
+### Update my profile
+PUT {{baseUrl}}/profiles/me
+Content-Type: application/json
+X-Impersonate-User: {{currentUser}}
+
+{
+  "bio": "Updated bio!",
+  "location": "San Francisco, CA"
+}
+
+### Delete my profile (soft delete)
+DELETE {{baseUrl}}/profiles/me
+X-Impersonate-User: {{currentUser}}
+
+# ============================================================================
+# INTERACTIONS
+# ============================================================================
+
+### Like a user (as Luna, like Orion)
+POST {{baseUrl}}/interactions/like/11111111-1111-1111-1111-111111111112
+X-Impersonate-User: {{currentUser}}
+
+### Pass on a user
+POST {{baseUrl}}/interactions/pass/11111111-1111-1111-1111-111111111114
+X-Impersonate-User: {{currentUser}}
+
+### Get my matches
+GET {{baseUrl}}/interactions/matches
+X-Impersonate-User: {{currentUser}}
+
+### Get my interaction history
+GET {{baseUrl}}/interactions/history?limit=50&offset=0
+X-Impersonate-User: {{currentUser}}
+
