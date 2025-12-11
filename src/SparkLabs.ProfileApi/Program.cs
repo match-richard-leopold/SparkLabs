@@ -1,3 +1,4 @@
+using Amazon.DynamoDBv2;
 using SparkLabs.Common.Configuration;
 using SparkLabs.Common.Data;
 using SparkLabs.Common.Messaging;
@@ -14,11 +15,27 @@ builder.Logging.AddSparkLabsLogging("SparkLabs.ProfileApi", builder.Configuratio
 var kafkaSettings = builder.Configuration.GetSection(KafkaSettings.SectionName).Get<KafkaSettings>()!;
 builder.Services.AddSingleton(kafkaSettings);
 
-// Database
+var awsSettings = builder.Configuration.GetSection(AwsSettings.SectionName).Get<AwsSettings>()!;
+builder.Services.AddSingleton(awsSettings);
+
+// Database (PostgreSQL - core profiles)
 var connectionString = builder.Configuration.GetConnectionString("ProfileDb")!;
 builder.Services.AddSingleton<IDbConnectionFactory>(new NpgsqlConnectionFactory(connectionString));
 builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
 builder.Services.AddScoped<IInteractionRepository, InteractionRepository>();
+
+// DynamoDB (brand extensions)
+builder.Services.AddSingleton<IAmazonDynamoDB>(_ =>
+{
+    var config = new AmazonDynamoDBConfig
+    {
+        ServiceURL = awsSettings.ServiceUrl
+    };
+    return new AmazonDynamoDBClient(awsSettings.AccessKey, awsSettings.SecretKey, config);
+});
+builder.Services.AddScoped<IKindlingExtensionRepository, KindlingExtensionRepository>();
+builder.Services.AddScoped<ISparkExtensionRepository, SparkExtensionRepository>();
+builder.Services.AddScoped<IFlameExtensionRepository, FlameExtensionRepository>();
 
 // Kafka
 builder.Services.AddSingleton<IKafkaProducer, KafkaProducer>();

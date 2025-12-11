@@ -1,76 +1,183 @@
 @baseUrl = http://localhost:5001
 
 # ============================================================================
-# IMPERSONATION
-# Change this to act as different users (simulates JWT auth)
-# ============================================================================
-@currentUser = 11111111-1111-1111-1111-111111111111
-
-# Seed user IDs for reference:
-# Kindling (Brand 1): 11111111-1111-1111-1111-11111111111[1-4] (Luna, Orion, Celeste, Atlas)
-# Spark (Brand 2):    22222222-2222-2222-2222-22222222222[1-4] (Alex, Jamie, Morgan, Taylor)
-# Flame (Brand 3):    33333333-3333-3333-3333-33333333333[1-4] (Jordan, Casey, Riley, Sam)
-
-# ============================================================================
-# PROFILES
+# KINDLING PROFILES (Astrology - Brand 1)
+# User IDs: 11111111-1111-1111-1111-11111111111[1-4] (Luna, Orion, Celeste, Atlas)
 # ============================================================================
 
-### Get my profile
-GET {{baseUrl}}/profiles/me
-X-Impersonate-User: {{currentUser}}
+@kindlingUser = 11111111-1111-1111-1111-111111111111
 
-### Get profile by ID
-GET {{baseUrl}}/profiles/11111111-1111-1111-1111-111111111112
+### Get my Kindling profile
+GET {{baseUrl}}/kindling/profiles/me
+X-Impersonate-User: {{kindlingUser}}
 
-### Get profiles by brand (Kindling = 1, Spark = 2, Flame = 3)
-GET {{baseUrl}}/profiles/brand/1?limit=10&offset=0
+### Get Kindling profile by ID
+GET {{baseUrl}}/kindling/profiles/11111111-1111-1111-1111-111111111112
 
-### Create a new profile
-POST {{baseUrl}}/profiles
+### List Kindling profiles (discovery)
+GET {{baseUrl}}/kindling/profiles?limit=10&offset=0
+
+### Create a new Kindling profile
+POST {{baseUrl}}/kindling/profiles
 Content-Type: application/json
 
 {
-  "brandId": 1,
-  "email": "newuser@kindling.example",
-  "displayName": "NewUser",
-  "dateOfBirth": "1995-06-15",
-  "bio": "Just joined!",
-  "location": "New York, NY",
-  "gender": 1,
-  "seekGender": 2
+  "email": "stella@kindling.example",
+  "displayName": "Stella",
+  "dateOfBirth": "1996-07-23",
+  "bio": "Leo sun seeking cosmic connection",
+  "location": "Miami, FL",
+  "gender": 2,
+  "seekGender": 1,
+  "sunSign": 5,
+  "risingSign": 1,
+  "moonSign": 12,
+  "believesInAstrology": true,
+  "compatibleSigns": [1, 9, 7]
 }
 
-### Update my profile
-PUT {{baseUrl}}/profiles/me
+### Update my Kindling profile
+PUT {{baseUrl}}/kindling/profiles/me
 Content-Type: application/json
-X-Impersonate-User: {{currentUser}}
+X-Impersonate-User: {{kindlingUser}}
 
 {
-  "bio": "Updated bio!",
-  "location": "San Francisco, CA"
+  "bio": "Updated: Aries sun, Scorpio rising, seeking the stars",
+  "sunSign": 1,
+  "believesInAstrology": true
 }
 
-### Delete my profile (soft delete)
-DELETE {{baseUrl}}/profiles/me
-X-Impersonate-User: {{currentUser}}
+### Delete my Kindling profile
+DELETE {{baseUrl}}/kindling/profiles/me
+X-Impersonate-User: {{kindlingUser}}
 
 # ============================================================================
-# INTERACTIONS
+# SPARK PROFILES (Hobbies - Brand 2)
+# User IDs: 22222222-2222-2222-2222-22222222222[1-4] (Alex, Jamie, Morgan, Taylor)
 # ============================================================================
 
-### Like a user (as Luna, like Orion)
+@sparkUser = 22222222-2222-2222-2222-222222222221
+
+### Get my Spark profile
+GET {{baseUrl}}/spark/profiles/me
+X-Impersonate-User: {{sparkUser}}
+
+### Get Spark profile by ID
+GET {{baseUrl}}/spark/profiles/22222222-2222-2222-2222-222222222222
+
+### List Spark profiles (discovery)
+GET {{baseUrl}}/spark/profiles?limit=10&offset=0
+
+### Create a new Spark profile
+POST {{baseUrl}}/spark/profiles
+Content-Type: application/json
+
+{
+  "email": "river@spark.example",
+  "displayName": "River",
+  "dateOfBirth": "1994-03-15",
+  "bio": "Outdoor enthusiast, always up for adventure",
+  "location": "Portland, OR",
+  "gender": 3,
+  "seekGender": 3,
+  "hobbies": ["kayaking", "camping", "photography"],
+  "activityLevel": 4,
+  "weekendStyle": 2,
+  "favoriteActivities": ["river kayaking", "backcountry camping"],
+  "openToNewHobbies": true
+}
+
+### Update my Spark profile
+PUT {{baseUrl}}/spark/profiles/me
+Content-Type: application/json
+X-Impersonate-User: {{sparkUser}}
+
+{
+  "bio": "Updated: Weekend warrior seeking adventure partner",
+  "hobbies": ["rock climbing", "hiking", "craft beer", "skiing"],
+  "activityLevel": 5
+}
+
+### Delete my Spark profile
+DELETE {{baseUrl}}/spark/profiles/me
+X-Impersonate-User: {{sparkUser}}
+
+# ============================================================================
+# FLAME PROFILES (Lifestyle - Brand 3)
+# User IDs: 33333333-3333-3333-3333-33333333333[1-4] (Jordan, Casey, Riley, Sam)
+# ============================================================================
+
+@flameUser = 33333333-3333-3333-3333-333333333331
+
+### Get my Flame profile
+GET {{baseUrl}}/flame/profiles/me
+X-Impersonate-User: {{flameUser}}
+
+### Get Flame profile by ID
+GET {{baseUrl}}/flame/profiles/33333333-3333-3333-3333-333333333332
+
+### List Flame profiles (discovery)
+GET {{baseUrl}}/flame/profiles?limit=10&offset=0
+
+### Create a new Flame profile
+POST {{baseUrl}}/flame/profiles
+Content-Type: application/json
+
+{
+  "email": "avery@flame.example",
+  "displayName": "Avery",
+  "dateOfBirth": "1989-11-08",
+  "bio": "Looking for something real and lasting",
+  "location": "Boston, MA",
+  "gender": 2,
+  "seekGender": 1,
+  "relationshipGoal": 3,
+  "familyPlans": 1,
+  "politicalLeaning": 1,
+  "religion": 6,
+  "wantsPets": true,
+  "dietaryPreference": 2
+}
+
+### Update my Flame profile
+PUT {{baseUrl}}/flame/profiles/me
+Content-Type: application/json
+X-Impersonate-User: {{flameUser}}
+
+{
+  "bio": "Updated: Ready for the next chapter",
+  "relationshipGoal": 3,
+  "familyPlans": 1
+}
+
+### Delete my Flame profile
+DELETE {{baseUrl}}/flame/profiles/me
+X-Impersonate-User: {{flameUser}}
+
+# ============================================================================
+# INTERACTIONS (Shared - brand derived from user's profile)
+# ============================================================================
+
+### Like a user (as Luna/Kindling, like Orion)
 POST {{baseUrl}}/interactions/like/11111111-1111-1111-1111-111111111112
-X-Impersonate-User: {{currentUser}}
+X-Impersonate-User: {{kindlingUser}}
 
-### Pass on a user
+### Pass on a user (as Luna/Kindling, pass on Atlas)
 POST {{baseUrl}}/interactions/pass/11111111-1111-1111-1111-111111111114
-X-Impersonate-User: {{currentUser}}
+X-Impersonate-User: {{kindlingUser}}
 
 ### Get my matches
 GET {{baseUrl}}/interactions/matches
-X-Impersonate-User: {{currentUser}}
+X-Impersonate-User: {{kindlingUser}}
 
 ### Get my interaction history
 GET {{baseUrl}}/interactions/history?limit=50&offset=0
-X-Impersonate-User: {{currentUser}}
+X-Impersonate-User: {{kindlingUser}}
 
+### Like a user (as Alex/Spark, like Jamie)
+POST {{baseUrl}}/interactions/like/22222222-2222-2222-2222-222222222222
+X-Impersonate-User: {{sparkUser}}
+
+### Get my matches (as Alex/Spark)
+GET {{baseUrl}}/interactions/matches
+X-Impersonate-User: {{sparkUser}}

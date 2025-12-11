@@ -20,4 +20,7 @@ public class S3Settings
 public class DynamoDbSettings
 {
     public string PhotoMetadataTable { get; set; } = "PhotoMetadata";
+    public string KindlingExtensionsTable { get; set; } = "KindlingExtensions";
+    public string SparkExtensionsTable { get; set; } = "SparkExtensions";
+    public string FlameExtensionsTable { get; set; } = "FlameExtensions";
 }
