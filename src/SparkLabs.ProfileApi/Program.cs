@@ -2,6 +2,7 @@ using Amazon.DynamoDBv2;
 using SparkLabs.Common.Configuration;
 using SparkLabs.Common.Data;
 using SparkLabs.Common.Messaging;
+using SparkLabs.Common.Services;
 using SparkLabs.Common.Telemetry;
 using SparkLabs.ProfileApi.Auth;
 
@@ -36,6 +37,11 @@ builder.Services.AddSingleton<IAmazonDynamoDB>(_ =>
 builder.Services.AddScoped<IKindlingExtensionRepository, KindlingExtensionRepository>();
 builder.Services.AddScoped<ISparkExtensionRepository, SparkExtensionRepository>();
 builder.Services.AddScoped<IFlameExtensionRepository, FlameExtensionRepository>();
+
+// Services (business logic)
+builder.Services.AddScoped<IKindlingProfileService, KindlingProfileService>();
+builder.Services.AddScoped<ISparkProfileService, SparkProfileService>();
+builder.Services.AddScoped<IFlameProfileService, FlameProfileService>();
 
 // Kafka
 builder.Services.AddSingleton<IKafkaProducer, KafkaProducer>();
