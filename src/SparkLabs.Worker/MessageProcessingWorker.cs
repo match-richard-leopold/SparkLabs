@@ -73,8 +73,13 @@ public class MessageProcessingWorker : BackgroundService
         switch (messageType)
         {
             case MessageTypes.UserInteraction:
-                var handler = scope.ServiceProvider.GetRequiredService<UserInteractionHandler>();
-                await handler.HandleAsync(messageJson);
+                var interactionHandler = scope.ServiceProvider.GetRequiredService<UserInteractionHandler>();
+                await interactionHandler.HandleAsync(messageJson);
+                break;
+
+            case MessageTypes.GetMostActiveUsers:
+                var activeUsersHandler = scope.ServiceProvider.GetRequiredService<GetMostActiveUsersHandler>();
+                await activeUsersHandler.HandleAsync(messageJson);
                 break;
 
             default:

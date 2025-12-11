@@ -25,6 +25,7 @@ builder.Services.AddSingleton<IKafkaProducer, KafkaProducer>();
 
 // Message Handlers
 builder.Services.AddScoped<UserInteractionHandler>();
+builder.Services.AddScoped<GetMostActiveUsersHandler>();
 
 // Worker
 builder.Services.AddHostedService<MessageProcessingWorker>();
