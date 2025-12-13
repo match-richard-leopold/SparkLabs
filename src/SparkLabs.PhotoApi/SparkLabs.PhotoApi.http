@@ -65,7 +65,7 @@ GET {{baseUrl}}/flame/users/{{flameUser}}/photos
 # ============================================================================
 
 ### Get photo by ID (replace with actual photoId)
-GET {{baseUrl}}/kindling/photos/00000000-0000-0000-0000-000000000000
+GET {{baseUrl}}/kindling/photos/019b1993-0216-7ac9-947d-6668dabdef4f
 
 # ============================================================================
 # DELETE PHOTO (soft delete)
@@ -73,5 +73,5 @@ GET {{baseUrl}}/kindling/photos/00000000-0000-0000-0000-000000000000
 # ============================================================================
 
 ### Delete photo (soft delete - sets isVisible = false)
-DELETE {{baseUrl}}/kindling/photos/00000000-0000-0000-0000-000000000000
+DELETE {{baseUrl}}/kindling/photos/019b1993-0216-7ac9-947d-6668dabdef4f
 X-User-Id: {{kindlingUser}}

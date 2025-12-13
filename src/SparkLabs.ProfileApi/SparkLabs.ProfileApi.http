@@ -183,3 +183,50 @@ X-Impersonate-User: {{sparkUser}}
 ### Get my matches (as Alex/Spark)
 GET {{baseUrl}}/interactions/matches
 X-Impersonate-User: {{sparkUser}}
+
+# ============================================================================
+# PHOTOS (Shared across all brands via ProfileApi -> PhotoApi)
+# ============================================================================
+
+### Upload a single photo (Kindling user)
+POST {{baseUrl}}/kindling/photos
+Content-Type: image/jpeg
+X-Impersonate-User: {{kindlingUser}}
+
+< ../../test/fixtures/photos/1m.jpg
+
+### Upload a single photo (Spark user)
+POST {{baseUrl}}/spark/photos
+Content-Type: image/jpeg
+X-Impersonate-User: {{sparkUser}}
+
+< ../../test/fixtures/photos/2m.jpg
+
+### Upload a single photo (Flame user)
+POST {{baseUrl}}/flame/photos
+Content-Type: image/jpeg
+X-Impersonate-User: {{flameUser}}
+
+< ../../test/fixtures/photos/1f.jpg
+
+### Get my photos (Kindling)
+GET {{baseUrl}}/kindling/photos
+X-Impersonate-User: {{kindlingUser}}
+
+### Get my photos (Spark)
+GET {{baseUrl}}/spark/photos
+X-Impersonate-User: {{sparkUser}}
+
+### Get my photos (Flame)
+GET {{baseUrl}}/flame/photos
+X-Impersonate-User: {{flameUser}}
+
+### Delete a photo (replace PHOTO_ID with actual ID from upload response)
+DELETE {{baseUrl}}/kindling/photos/PHOTO_ID_HERE
+X-Impersonate-User: {{kindlingUser}}
+
+
+
+
+
+

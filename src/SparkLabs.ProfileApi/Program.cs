@@ -1,4 +1,5 @@
 using Amazon.DynamoDBv2;
+using SparkLabs.Common.Clients;
 using SparkLabs.Common.Configuration;
 using SparkLabs.Common.Data;
 using SparkLabs.Common.Messaging;
@@ -42,6 +43,14 @@ builder.Services.AddScoped<IFlameExtensionRepository, FlameExtensionRepository>(
 builder.Services.AddScoped<IKindlingProfileService, KindlingProfileService>();
 builder.Services.AddScoped<ISparkProfileService, SparkProfileService>();
 builder.Services.AddScoped<IFlameProfileService, FlameProfileService>();
+
+// Photo services
+builder.Services.AddScoped<IModerationClient, ModerationClient>();
+builder.Services.AddHttpClient<IPhotoApiClient, PhotoApiClient>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["PhotoApi:BaseUrl"] ?? "http://localhost:5002");
+});
+builder.Services.AddScoped<IPhotoUploadService, PhotoUploadService>();
 
 // Kafka
 builder.Services.AddSingleton<IKafkaProducer, KafkaProducer>();

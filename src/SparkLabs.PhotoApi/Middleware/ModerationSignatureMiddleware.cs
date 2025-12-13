@@ -8,7 +8,7 @@ public class ModerationSignatureMiddleware
     private readonly RequestDelegate _next;
     private readonly ILogger<ModerationSignatureMiddleware> _logger;
 
-    public const string HeaderName = "X-Moderation-Signature";
+    private const string HeaderName = "X-Moderation-Signature";
     private const int MinimumScore = 70;
 
     public ModerationSignatureMiddleware(RequestDelegate next, ILogger<ModerationSignatureMiddleware> logger)
@@ -47,6 +47,7 @@ public class ModerationSignatureMiddleware
         await _next(context);
     }
 
+    // in real life this would probably be way more complicated...
     private ValidationResult ValidateSignature(string signature)
     {
         try
