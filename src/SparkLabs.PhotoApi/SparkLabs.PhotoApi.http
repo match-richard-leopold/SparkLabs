@@ -1,6 +1,77 @@
-@SparkLabs.PhotoApi_HostAddress = http://localhost:5002
+@baseUrl = http://localhost:5002
 
-GET {{SparkLabs.PhotoApi_HostAddress}}/weatherforecast/
-Accept: application/json
+@validSignature = eyJtb2RlcmF0aW9uU2NvcmUiOiA4MH0=
+@invalidSignature = eyJtb2RlcmF0aW9uU2NvcmUiOiA1MH0=
 
-###
+# Test users
+@kindlingUser = 11111111-1111-1111-1111-111111111111
+@sparkUser = 22222222-2222-2222-2222-222222222221
+@flameUser = 33333333-3333-3333-3333-333333333331
+
+# ============================================================================
+# UPLOAD PHOTOS
+# ============================================================================
+
+### Upload photo for Kindling user (Luna)
+PUT {{baseUrl}}/kindling/users/{{kindlingUser}}/photos
+Content-Type: image/jpeg
+X-Moderation-Signature: {{validSignature}}
+
+< ./../../test/fixtures/photos/1f.jpg
+
+### Upload photo for Spark user (Alex)
+PUT {{baseUrl}}/spark/users/{{sparkUser}}/photos
+Content-Type: image/jpeg
+X-Moderation-Signature: {{validSignature}}
+
+< ./../../test/fixtures/photos/1m.jpg
+
+### Upload photo for Flame user (Jordan)
+PUT {{baseUrl}}/flame/users/{{flameUser}}/photos
+Content-Type: image/jpeg
+X-Moderation-Signature: {{validSignature}}
+
+< ./../../test/fixtures/photos/2m.jpg
+
+### Upload should FAIL - invalid signature (score too low)
+PUT {{baseUrl}}/kindling/users/{{kindlingUser}}/photos
+Content-Type: image/jpeg
+X-Moderation-Signature: {{invalidSignature}}
+
+< ./../../test/fixtures/photos/1f.jpg
+
+### Upload should FAIL - missing signature
+PUT {{baseUrl}}/kindling/users/{{kindlingUser}}/photos
+Content-Type: image/jpeg
+
+< ./../../test/fixtures/photos/1f.jpg
+
+# ============================================================================
+# LIST USER PHOTOS
+# ============================================================================
+
+### List Kindling user photos
+GET {{baseUrl}}/kindling/users/{{kindlingUser}}/photos
+
+### List Spark user photos
+GET {{baseUrl}}/spark/users/{{sparkUser}}/photos
+
+### List Flame user photos
+GET {{baseUrl}}/flame/users/{{flameUser}}/photos
+
+# ============================================================================
+# GET PHOTO BYTES
+# Replace {photoId} with actual photo ID from upload response
+# ============================================================================
+
+### Get photo by ID (replace with actual photoId)
+GET {{baseUrl}}/kindling/photos/00000000-0000-0000-0000-000000000000
+
+# ============================================================================
+# DELETE PHOTO (soft delete)
+# Replace {photoId} with actual photo ID from upload response
+# ============================================================================
+
+### Delete photo (soft delete - sets isVisible = false)
+DELETE {{baseUrl}}/kindling/photos/00000000-0000-0000-0000-000000000000
+X-User-Id: {{kindlingUser}}

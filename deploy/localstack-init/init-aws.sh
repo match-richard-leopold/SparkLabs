@@ -11,16 +11,17 @@ echo "Created S3 bucket: sparklabs-photos"
 
 # =============================================================================
 # DynamoDB - Photo Metadata
+# pk = {brandId}#{userId}, sk = {photoId}
 # =============================================================================
 
 awslocal dynamodb create-table \
     --table-name PhotoMetadata \
     --attribute-definitions \
-        AttributeName=UserId,AttributeType=S \
-        AttributeName=PhotoId,AttributeType=S \
+        AttributeName=pk,AttributeType=S \
+        AttributeName=sk,AttributeType=S \
     --key-schema \
-        AttributeName=UserId,KeyType=HASH \
-        AttributeName=PhotoId,KeyType=RANGE \
+        AttributeName=pk,KeyType=HASH \
+        AttributeName=sk,KeyType=RANGE \
     --billing-mode PAY_PER_REQUEST
 
 echo "Created DynamoDB table: PhotoMetadata"
