@@ -42,6 +42,9 @@ public class PhotoController : ControllerBase
         if (!ValidBrands.Contains(brandId))
             return BadRequest(new { error = $"Invalid brand: {brandId}" });
 
+        if (!Request.ContentLength.HasValue)
+            return BadRequest(new { error = "Content-Length header required" });
+
         // Generate photo ID
         var photoId = UuidV7.NewGuid();
         var s3Key = $"{brandId}/{photoId}";
@@ -53,7 +56,8 @@ public class PhotoController : ControllerBase
             BucketName = _bucketName,
             Key = s3Key,
             InputStream = Request.Body,
-            ContentType = Request.ContentType ?? "image/jpeg"
+            ContentType = Request.ContentType ?? "image/jpeg",
+            Headers = { ContentLength = Request.ContentLength.Value }
         };
 
         await _s3Client.PutObjectAsync(putRequest);
