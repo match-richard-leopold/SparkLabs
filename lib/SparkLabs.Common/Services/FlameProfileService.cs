@@ -133,7 +133,7 @@ public class FlameProfileService : IFlameProfileService
 public record CreateFlameProfile(
     string Email,
     string DisplayName,
-    DateOnly DateOfBirth,
+    DateTime DateOfBirth,
     string? Bio,
     string? Location,
     Gender Gender,
@@ -164,7 +164,7 @@ public record FlameProfile(
     Guid Id,
     string Email,
     string DisplayName,
-    DateOnly DateOfBirth,
+    DateTime DateOfBirth,
     string? Bio,
     string? Location,
     Gender Gender,

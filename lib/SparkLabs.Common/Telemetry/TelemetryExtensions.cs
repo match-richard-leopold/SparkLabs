@@ -25,10 +25,9 @@ public static class TelemetryExtensions
 
         var resourceBuilder = ResourceBuilder.CreateDefault()
             .AddService(serviceName)
-            .AddAttributes(new[]
-            {
+            .AddAttributes([
                 new KeyValuePair<string, object>("deployment.environment", "development")
-            });
+            ]);
 
         services.AddOpenTelemetry()
             .WithTracing(builder =>

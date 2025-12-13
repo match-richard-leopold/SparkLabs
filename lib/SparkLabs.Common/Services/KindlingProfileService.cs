@@ -131,7 +131,7 @@ public class KindlingProfileService : IKindlingProfileService
 public record CreateKindlingProfile(
     string Email,
     string DisplayName,
-    DateOnly DateOfBirth,
+    DateTime DateOfBirth,
     string? Bio,
     string? Location,
     Gender Gender,
@@ -160,7 +160,7 @@ public record KindlingProfile(
     Guid Id,
     string Email,
     string DisplayName,
-    DateOnly DateOfBirth,
+    DateTime DateOfBirth,
     string? Bio,
     string? Location,
     Gender Gender,

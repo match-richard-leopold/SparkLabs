@@ -131,7 +131,7 @@ public class SparkProfileService : ISparkProfileService
 public record CreateSparkProfile(
     string Email,
     string DisplayName,
-    DateOnly DateOfBirth,
+    DateTime DateOfBirth,
     string? Bio,
     string? Location,
     Gender Gender,
@@ -160,7 +160,7 @@ public record SparkProfile(
     Guid Id,
     string Email,
     string DisplayName,
-    DateOnly DateOfBirth,
+    DateTime DateOfBirth,
     string? Bio,
     string? Location,
     Gender Gender,

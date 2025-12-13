@@ -6,7 +6,7 @@ public class UserProfile
     public Brand BrandId { get; set; }
     public required string Email { get; set; }
     public required string DisplayName { get; set; }
-    public DateOnly DateOfBirth { get; set; }
+    public DateTime DateOfBirth { get; set; }
     public string? Bio { get; set; }
     public string? Location { get; set; }
     public Gender Gender { get; set; }
