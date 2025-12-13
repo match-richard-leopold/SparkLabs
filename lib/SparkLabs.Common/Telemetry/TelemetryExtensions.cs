@@ -2,6 +2,8 @@ using SparkLabs.Common.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Npgsql;
+using OpenTelemetry.Instrumentation.AWS;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -58,6 +60,8 @@ public static class TelemetryExtensions
                         };
                     })
                     .AddHttpClientInstrumentation()
+                    .AddNpgsql()
+                    .AddAWSInstrumentation()
                     .AddSource(serviceName)
                     .AddOtlpExporter(options =>
                     {
