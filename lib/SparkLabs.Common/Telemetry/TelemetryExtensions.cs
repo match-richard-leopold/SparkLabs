@@ -23,8 +23,8 @@ public static class TelemetryExtensions
 
         var endpoint = settings.OtlpEndpoint;
 
-        var resourceBuilder = ResourceBuilder.CreateDefault()
-            .AddService(serviceName)
+        var resourceBuilder = ResourceBuilder.CreateEmpty()
+            .AddService(serviceName, serviceInstanceId: Environment.MachineName)
             .AddAttributes([
                 new KeyValuePair<string, object>("deployment.environment", "development")
             ]);
@@ -34,7 +34,29 @@ public static class TelemetryExtensions
             {
                 builder
                     .SetResourceBuilder(resourceBuilder)
-                    .AddAspNetCoreInstrumentation()
+                    .AddAspNetCoreInstrumentation(options =>
+                    {
+                        options.EnrichWithHttpRequest = (activity, request) =>
+                        {
+                            foreach (var header in request.Headers)
+                            {
+                                if (header.Key.StartsWith("X-", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    activity.SetTag($"http.request.header.{header.Key.ToLowerInvariant()}", string.Join(",", header.Value.ToArray()));
+                                }
+                            }
+                        };
+                        options.EnrichWithHttpResponse = (activity, response) =>
+                        {
+                            foreach (var header in response.Headers)
+                            {
+                                if (header.Key.StartsWith("X-", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    activity.SetTag($"http.response.header.{header.Key.ToLowerInvariant()}", string.Join(",", header.Value.ToArray()));
+                                }
+                            }
+                        };
+                    })
                     .AddHttpClientInstrumentation()
                     .AddSource(serviceName)
                     .AddOtlpExporter(options =>
@@ -69,13 +91,17 @@ public static class TelemetryExtensions
 
         var endpoint = settings.OtlpEndpoint;
 
+        builder.ClearProviders();
+        builder.SetMinimumLevel(LogLevel.Information);
+        builder.AddConsole();
         builder.AddOpenTelemetry(options =>
         {
-            options.SetResourceBuilder(ResourceBuilder.CreateDefault()
-                .AddService(serviceName));
+            options.SetResourceBuilder(ResourceBuilder.CreateEmpty()
+                .AddService(serviceName, serviceInstanceId: Environment.MachineName));
 
             options.IncludeFormattedMessage = true;
             options.IncludeScopes = true;
+            options.ParseStateValues = true;
 
             options.AddOtlpExporter(exporterOptions =>
             {

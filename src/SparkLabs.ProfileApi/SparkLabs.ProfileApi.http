@@ -6,6 +6,8 @@
 # ============================================================================
 
 @kindlingUser = 11111111-1111-1111-1111-111111111111
+@sparkUser = 22222222-2222-2222-2222-222222222221
+@flameUser = 33333333-3333-3333-3333-333333333331
 
 ### Get my Kindling profile
 GET {{baseUrl}}/kindling/profiles/me
@@ -56,7 +58,7 @@ X-Impersonate-User: {{kindlingUser}}
 # User IDs: 22222222-2222-2222-2222-22222222222[1-4] (Alex, Jamie, Morgan, Taylor)
 # ============================================================================
 
-@sparkUser = 22222222-2222-2222-2222-222222222221
+
 
 ### Get my Spark profile
 GET {{baseUrl}}/spark/profiles/me
@@ -107,7 +109,7 @@ X-Impersonate-User: {{sparkUser}}
 # User IDs: 33333333-3333-3333-3333-33333333333[1-4] (Jordan, Casey, Riley, Sam)
 # ============================================================================
 
-@flameUser = 33333333-3333-3333-3333-333333333331
+
 
 ### Get my Flame profile
 GET {{baseUrl}}/flame/profiles/me
