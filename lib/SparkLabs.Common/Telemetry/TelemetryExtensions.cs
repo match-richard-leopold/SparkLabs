@@ -59,7 +59,29 @@ public static class TelemetryExtensions
                             }
                         };
                     })
-                    .AddHttpClientInstrumentation()
+                    .AddHttpClientInstrumentation(options =>
+                    {
+                        options.EnrichWithHttpRequestMessage = (activity, request) =>
+                        {
+                            foreach (var header in request.Headers)
+                            {
+                                if (header.Key.StartsWith("X-", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    activity.SetTag($"http.request.header.{header.Key.ToLowerInvariant()}", string.Join(",", header.Value));
+                                }
+                            }
+                        };
+                        options.EnrichWithHttpResponseMessage = (activity, response) =>
+                        {
+                            foreach (var header in response.Headers)
+                            {
+                                if (header.Key.StartsWith("X-", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    activity.SetTag($"http.response.header.{header.Key.ToLowerInvariant()}", string.Join(",", header.Value));
+                                }
+                            }
+                        };
+                    })
                     .AddNpgsql()
                     .AddAWSInstrumentation()
                     .AddSource(serviceName)
