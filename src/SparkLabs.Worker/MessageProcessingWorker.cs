@@ -53,6 +53,11 @@ public class MessageProcessingWorker : BackgroundService
 
                 consumer.Commit(consumeResult);
             }
+            catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+            {
+                // Graceful shutdown - not an error
+                break;
+            }
             catch (ConsumeException ex)
             {
                 _logger.LogError(ex, "Error consuming message");
