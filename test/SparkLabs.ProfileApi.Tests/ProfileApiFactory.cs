@@ -8,8 +8,8 @@ namespace SparkLabs.ProfileApi.Tests;
 
 public class ProfileApiFactory : WebApplicationFactory<Program>
 {
-    public FakeModerationClient ModerationClient { get; private set; } = null!;
-    public FakePhotoApiClient PhotoApiClient { get; private set; } = null!;
+    public Fakes.FakeModerationClient ModerationClient { get; private set; } = null!;
+    public Fakes.FakePhotoApiClient PhotoApiClient { get; private set; } = null!;
 
     public TimeSpan ModerationDelay { get; set; } = TimeSpan.FromMilliseconds(100);
     public TimeSpan PhotoApiDelay { get; set; } = TimeSpan.Zero;
@@ -39,8 +39,8 @@ public class ProfileApiFactory : WebApplicationFactory<Program>
                 services.Remove(descriptor);
 
             // Create and register fakes
-            ModerationClient = new FakeModerationClient(ModerationDelay);
-            PhotoApiClient = new FakePhotoApiClient(PhotoApiDelay);
+            ModerationClient = new Fakes.FakeModerationClient(ModerationDelay);
+            PhotoApiClient = new Fakes.FakePhotoApiClient(PhotoApiDelay);
 
             services.AddSingleton<IModerationClient>(ModerationClient);
             services.AddSingleton<IPhotoApiClient>(PhotoApiClient);

@@ -93,8 +93,17 @@ services:
     ports:
       - "18888:18888"     # Dashboard UI
       - "4317:18889"      # OTLP gRPC endpoint (mapped to standard port)
+
+  # Moderation Service - Rate-limited external service simulation
+  moderation-service:
+    build:
+      context: ./moderation-service
+      dockerfile: Dockerfile
+    container_name: sparklabs-moderation
+    ports:
+      - "5003:5003"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:18888"]
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5003/health')"]
       interval: 10s
       timeout: 5s
       retries: 5

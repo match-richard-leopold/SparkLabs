@@ -16,26 +16,21 @@ public interface IModerationClient
 public record ModerationResult(string Signature, int Score, bool Passed);
 
 /// <summary>
-/// Stub implementation that always returns a passing score.
-/// In production, this would call an external moderation service.
+/// Fake implementation that always returns a passing score with minimal delay.
+/// Use this to bypass the real moderation service for testing.
 /// </summary>
-public class ModerationClient : IModerationClient
+public class FakeModerationClient : IModerationClient
 {
-    private readonly ILogger<ModerationClient> _logger;
+    private readonly ILogger<FakeModerationClient> _logger;
 
-    public ModerationClient(ILogger<ModerationClient> logger)
+    public FakeModerationClient(ILogger<FakeModerationClient> logger)
     {
         _logger = logger;
     }
 
     public async Task<ModerationResult> GetSignatureAsync(byte[] imageBytes, CancellationToken cancellationToken = default)
     {
-        // TODO: In production, this would:
-        // 1. Call external moderation service with image bytes
-        // 2. Service analyzes image for inappropriate content
-        // 3. Returns score (0-100) and signature for PhotoApi
-
-        // For now, simulate a small delay and return passing score
+        // Minimal delay, always passes
         await Task.Delay(50, cancellationToken);
 
         const int score = 85;
@@ -43,8 +38,63 @@ public class ModerationClient : IModerationClient
         var json = JsonSerializer.Serialize(payload);
         var signature = Convert.ToBase64String(Encoding.UTF8.GetBytes(json));
 
-        _logger.LogDebug("Generated moderation signature with score {Score}", score);
+        _logger.LogDebug("Fake moderation: generated signature with score {Score}", score);
 
         return new ModerationResult(signature, score, Passed: score >= 70);
     }
+}
+
+/// <summary>
+/// Real implementation that calls the external moderation service.
+/// The service has rate limiting (max 5 concurrent) and ~400ms latency.
+/// </summary>
+public class ModerationClient : IModerationClient
+{
+    private readonly HttpClient _httpClient;
+    private readonly ILogger<ModerationClient> _logger;
+
+    public ModerationClient(HttpClient httpClient, ILogger<ModerationClient> logger)
+    {
+        _httpClient = httpClient;
+        _logger = logger;
+    }
+
+    public async Task<ModerationResult> GetSignatureAsync(byte[] imageBytes, CancellationToken cancellationToken = default)
+    {
+        using var content = new ByteArrayContent(imageBytes);
+        content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpeg");
+
+        var response = await _httpClient.PostAsync("/moderate", content, cancellationToken);
+
+        if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+        {
+            // Log the rate limit header if present
+            if (response.Headers.TryGetValues("X-RateLimit-Concurrent-Max", out var values))
+            {
+                _logger.LogWarning("Moderation rate limited. Max concurrent: {Max}", values.FirstOrDefault());
+            }
+            throw new ModerationRateLimitException("Moderation service rate limit exceeded");
+        }
+
+        response.EnsureSuccessStatusCode();
+
+        var json = await response.Content.ReadAsStringAsync(cancellationToken);
+        var result = JsonSerializer.Deserialize<ModerationResponse>(json, JsonOptions);
+
+        _logger.LogDebug("Moderation result: score={Score}, passed={Passed}", result!.Score, result.Passed);
+
+        return new ModerationResult(result.Signature, result.Score, result.Passed);
+    }
+
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        PropertyNameCaseInsensitive = true
+    };
+
+    private record ModerationResponse(string Signature, int Score, bool Passed);
+}
+
+public class ModerationRateLimitException : Exception
+{
+    public ModerationRateLimitException(string message) : base(message) { }
 }

@@ -45,7 +45,14 @@ builder.Services.AddScoped<ISparkProfileService, SparkProfileService>();
 builder.Services.AddScoped<IFlameProfileService, FlameProfileService>();
 
 // Photo services
-builder.Services.AddScoped<IModerationClient, ModerationClient>();
+// Option A: Use real moderation service (requires moderation-service container running)
+builder.Services.AddHttpClient<IModerationClient, ModerationClient>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["ModerationService:BaseUrl"] ?? "http://localhost:5003");
+});
+// Option B: Use fake moderation (no external dependency, fast)
+// builder.Services.AddScoped<IModerationClient, FakeModerationClient>();
+
 builder.Services.AddHttpClient<IPhotoApiClient, PhotoApiClient>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["PhotoApi:BaseUrl"] ?? "http://localhost:5002");
