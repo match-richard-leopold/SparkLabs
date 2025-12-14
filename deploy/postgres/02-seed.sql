@@ -67,3 +67,62 @@ INSERT INTO user_interactions (event_id, from_user_id, to_user_id, interaction_t
 -- Riley likes Sam, Sam passes
 ('cccccccc-cccc-cccc-cccc-ccccccccc005', '33333333-3333-3333-3333-333333333333', '33333333-3333-3333-3333-333333333334', 1, 3, NOW() - INTERVAL '4 hours'),
 ('cccccccc-cccc-cccc-cccc-ccccccccc006', '33333333-3333-3333-3333-333333333334', '33333333-3333-3333-3333-333333333333', 2, 3, NOW() - INTERVAL '3 hours');
+
+-- ============================================================================
+-- ADDITIONAL INTERACTIONS FOR "MOST ACTIVE USERS" EXERCISE
+-- ============================================================================
+-- This data ensures meaningful results for the GetMostActiveUsers query.
+-- Activity counts after seeding (by brand):
+--
+-- Brand 1 (Kindling):
+--   Luna:    12 interactions
+--   Orion:    5 interactions
+--   Celeste:  1 interaction
+--
+-- Brand 2 (Spark):
+--   Alex:     8 interactions
+--   Taylor:   4 interactions
+--   Jamie:    2 interactions
+--   Morgan:   1 interaction
+--
+-- Brand 3 (Flame):
+--   Jordan:   4 interactions
+--   Casey:    2 interactions
+--   Riley:    1 interaction
+--   Sam:      1 interaction
+
+-- Luna's additional activity (Kindling power user)
+INSERT INTO user_interactions (event_id, from_user_id, to_user_id, interaction_type, brand_id, timestamp) VALUES
+('dddddddd-dddd-dddd-dddd-ddddddddd001', '11111111-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111113', 1, 1, NOW() - INTERVAL '6 hours'),
+('dddddddd-dddd-dddd-dddd-ddddddddd002', '11111111-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111113', 3, 1, NOW() - INTERVAL '6 hours'),
+('dddddddd-dddd-dddd-dddd-ddddddddd003', '11111111-1111-1111-1111-111111111111', '22222222-2222-2222-2222-222222222221', 1, 1, NOW() - INTERVAL '5 hours'),
+('dddddddd-dddd-dddd-dddd-ddddddddd004', '11111111-1111-1111-1111-111111111111', '22222222-2222-2222-2222-222222222222', 1, 1, NOW() - INTERVAL '4 hours'),
+('dddddddd-dddd-dddd-dddd-ddddddddd005', '11111111-1111-1111-1111-111111111111', '22222222-2222-2222-2222-222222222223', 2, 1, NOW() - INTERVAL '3 hours'),
+('dddddddd-dddd-dddd-dddd-ddddddddd006', '11111111-1111-1111-1111-111111111111', '22222222-2222-2222-2222-222222222224', 1, 1, NOW() - INTERVAL '2 hours'),
+('dddddddd-dddd-dddd-dddd-ddddddddd007', '11111111-1111-1111-1111-111111111111', '33333333-3333-3333-3333-333333333331', 1, 1, NOW() - INTERVAL '1 hour'),
+('dddddddd-dddd-dddd-dddd-ddddddddd008', '11111111-1111-1111-1111-111111111111', '33333333-3333-3333-3333-333333333332', 2, 1, NOW() - INTERVAL '30 minutes'),
+('dddddddd-dddd-dddd-dddd-ddddddddd009', '11111111-1111-1111-1111-111111111111', '33333333-3333-3333-3333-333333333333', 1, 1, NOW() - INTERVAL '15 minutes');
+
+-- Alex's additional activity (Spark power user)
+INSERT INTO user_interactions (event_id, from_user_id, to_user_id, interaction_type, brand_id, timestamp) VALUES
+('eeeeeeee-eeee-eeee-eeee-eeeeeeeee001', '22222222-2222-2222-2222-222222222221', '11111111-1111-1111-1111-111111111111', 1, 2, NOW() - INTERVAL '7 hours'),
+('eeeeeeee-eeee-eeee-eeee-eeeeeeeee002', '22222222-2222-2222-2222-222222222221', '11111111-1111-1111-1111-111111111112', 1, 2, NOW() - INTERVAL '6 hours'),
+('eeeeeeee-eeee-eeee-eeee-eeeeeeeee003', '22222222-2222-2222-2222-222222222221', '11111111-1111-1111-1111-111111111113', 2, 2, NOW() - INTERVAL '4 hours'),
+('eeeeeeee-eeee-eeee-eeee-eeeeeeeee004', '22222222-2222-2222-2222-222222222221', '33333333-3333-3333-3333-333333333331', 1, 2, NOW() - INTERVAL '2 hours'),
+('eeeeeeee-eeee-eeee-eeee-eeeeeeeee005', '22222222-2222-2222-2222-222222222221', '33333333-3333-3333-3333-333333333332', 1, 2, NOW() - INTERVAL '1 hour');
+
+-- Taylor's additional activity
+INSERT INTO user_interactions (event_id, from_user_id, to_user_id, interaction_type, brand_id, timestamp) VALUES
+('ffffffff-ffff-ffff-ffff-fffffffffff1', '22222222-2222-2222-2222-222222222224', '11111111-1111-1111-1111-111111111111', 1, 2, NOW() - INTERVAL '8 hours'),
+('ffffffff-ffff-ffff-ffff-fffffffffff2', '22222222-2222-2222-2222-222222222224', '11111111-1111-1111-1111-111111111112', 2, 2, NOW() - INTERVAL '6 hours');
+
+-- Orion's additional activity
+INSERT INTO user_interactions (event_id, from_user_id, to_user_id, interaction_type, brand_id, timestamp) VALUES
+('00000000-0000-0000-0000-000000000a01', '11111111-1111-1111-1111-111111111112', '22222222-2222-2222-2222-222222222221', 1, 1, NOW() - INTERVAL '5 hours'),
+('00000000-0000-0000-0000-000000000a02', '11111111-1111-1111-1111-111111111112', '22222222-2222-2222-2222-222222222222', 2, 1, NOW() - INTERVAL '3 hours'),
+('00000000-0000-0000-0000-000000000a03', '11111111-1111-1111-1111-111111111112', '33333333-3333-3333-3333-333333333332', 1, 1, NOW() - INTERVAL '1 hour');
+
+-- Jordan's additional activity
+INSERT INTO user_interactions (event_id, from_user_id, to_user_id, interaction_type, brand_id, timestamp) VALUES
+('00000000-0000-0000-0000-000000000b01', '33333333-3333-3333-3333-333333333331', '11111111-1111-1111-1111-111111111111', 1, 3, NOW() - INTERVAL '4 hours'),
+('00000000-0000-0000-0000-000000000b02', '33333333-3333-3333-3333-333333333331', '22222222-2222-2222-2222-222222222221', 2, 3, NOW() - INTERVAL '2 hours');

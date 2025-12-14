@@ -3,6 +3,7 @@ namespace SparkLabs.Common.Messaging;
 public class MostActiveUsersResult
 {
     public Guid CorrelationId { get; set; }
+    public int BrandId { get; set; }
     public DateTime Timestamp { get; set; }
     public DateOnly Date { get; set; }
     public List<ActiveUserEntry> Users { get; set; } = new();

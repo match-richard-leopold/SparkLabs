@@ -11,7 +11,7 @@ public interface IInteractionRepository
     Task<bool> HasLikedAsync(Guid fromUserId, Guid toUserId);
     Task<IEnumerable<UserInteractionEvent>> GetByUserAsync(Guid userId, int limit = 100, int offset = 0);
     Task<IEnumerable<UserInteractionEvent>> GetMatchesAsync(Guid userId);
-    Task<IEnumerable<(Guid UserId, int ActivityCount)>> GetTopActiveUsersAsync(DateOnly date, int limit = 3);
+    Task<IEnumerable<(Guid UserId, int ActivityCount)>> GetTopActiveUsersAsync(int brandId, DateOnly date, int limit = 3);
 }
 
 public class InteractionRepository : IInteractionRepository
@@ -131,15 +131,16 @@ public class InteractionRepository : IInteractionRepository
     }
 
     /// <summary>
-    /// Gets the top N most active users for a given day.
+    /// Gets the top N most active users for a given brand and day.
     /// This is the query from the interview coding exercise.
     /// </summary>
-    public async Task<IEnumerable<(Guid UserId, int ActivityCount)>> GetTopActiveUsersAsync(DateOnly date, int limit = 3)
+    public async Task<IEnumerable<(Guid UserId, int ActivityCount)>> GetTopActiveUsersAsync(int brandId, DateOnly date, int limit = 3)
     {
         const string sql = """
             SELECT from_user_id AS UserId, COUNT(*) AS ActivityCount
             FROM user_interactions
-            WHERE timestamp >= @StartOfDay AND timestamp < @EndOfDay
+            WHERE brand_id = @BrandId
+              AND timestamp >= @StartOfDay AND timestamp < @EndOfDay
             GROUP BY from_user_id
             ORDER BY ActivityCount DESC
             LIMIT @Limit
@@ -151,6 +152,7 @@ public class InteractionRepository : IInteractionRepository
         using var connection = _connectionFactory.CreateConnection();
         var results = await connection.QueryAsync<(Guid UserId, int ActivityCount)>(sql, new
         {
+            BrandId = brandId,
             StartOfDay = startOfDay,
             EndOfDay = endOfDay,
             Limit = limit

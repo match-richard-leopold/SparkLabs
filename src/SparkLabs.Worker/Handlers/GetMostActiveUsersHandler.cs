@@ -28,18 +28,20 @@ public class GetMostActiveUsersHandler : IMessageHandler
     {
         var request = JsonSerializer.Deserialize<GetMostActiveUsersRequest>(messageJson);
         var correlationId = request?.CorrelationId ?? Guid.Empty;
+        var brandId = request?.BrandId ?? 1;
         var limit = request?.Limit ?? 10;
         var date = DateOnly.FromDateTime(DateTime.UtcNow);
 
         _logger.LogInformation(
-            "Processing GetMostActiveUsers request {CorrelationId} - top {Limit} for {Date}",
-            correlationId, limit, date);
+            "Processing GetMostActiveUsers request {CorrelationId} - Brand {BrandId}, top {Limit} for {Date}",
+            correlationId, brandId, limit, date);
 
-        var topUsers = await _interactionRepository.GetTopActiveUsersAsync(date, limit);
+        var topUsers = await _interactionRepository.GetTopActiveUsersAsync(brandId, date, limit);
 
         var result = new MostActiveUsersResult
         {
             CorrelationId = correlationId,
+            BrandId = brandId,
             Timestamp = DateTime.UtcNow,
             Date = date,
             Users = topUsers.Select(u => new ActiveUserEntry
