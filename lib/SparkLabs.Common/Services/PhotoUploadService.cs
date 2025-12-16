@@ -54,9 +54,6 @@ public class PhotoUploadService : IPhotoUploadService
     private readonly IPhotoApiClient _photoApiClient;
     private readonly ILogger<PhotoUploadService> _logger;
 
-    // Limit concurrent calls to moderation service (it's rate-limited)
-    private const int MaxConcurrentModerationCalls = 5;
-
     public PhotoUploadService(
         IModerationClient moderationClient,
         IPhotoApiClient photoApiClient,
@@ -102,37 +99,19 @@ public class PhotoUploadService : IPhotoUploadService
         var successful = new List<PhotoUploadResult>();
         var failed = new List<BatchUploadError>();
 
-        // Use semaphore to limit concurrent moderation calls
-        using var semaphore = new SemaphoreSlim(MaxConcurrentModerationCalls);
-
-        var tasks = imageList.Select(async (imageBytes, index) =>
+        // Process photos one at a time
+        for (int i = 0; i < imageList.Count; i++)
         {
-            await semaphore.WaitAsync(cancellationToken);
             try
             {
-                var result = await UploadSinglePhotoAsync(
-                    brandId, userId, imageBytes, index, cancellationToken);
-                return (Index: index, Result: result, Error: (string?)null);
+                var result = await UploadPhotoAsync(brandId, userId, imageList[i], cancellationToken);
+                successful.Add(result);
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(ex, "Failed to upload photo {Index} for user {UserId}", index, userId);
-                return (Index: index, Result: (PhotoUploadResult?)null, Error: ex.Message);
+                _logger.LogWarning(ex, "Failed to upload photo {Index} for user {UserId}", i, userId);
+                failed.Add(new BatchUploadError(i, ex.Message));
             }
-            finally
-            {
-                semaphore.Release();
-            }
-        });
-
-        var results = await Task.WhenAll(tasks);
-
-        foreach (var (index, result, error) in results.OrderBy(r => r.Index))
-        {
-            if (result != null)
-                successful.Add(result);
-            else
-                failed.Add(new BatchUploadError(index, error!));
         }
 
         var duration = DateTime.UtcNow - startTime;
@@ -142,28 +121,6 @@ public class PhotoUploadService : IPhotoUploadService
             successful.Count, failed.Count, duration.TotalMilliseconds);
 
         return new BatchUploadResult(successful, failed, duration);
-    }
-
-    private async Task<PhotoUploadResult> UploadSinglePhotoAsync(
-        string brandId,
-        Guid userId,
-        byte[] imageBytes,
-        int index,
-        CancellationToken cancellationToken)
-    {
-        _logger.LogDebug("Processing photo {Index} for user {UserId}", index, userId);
-
-        // Get moderation signature (this is the rate-limited call)
-        var moderation = await _moderationClient.GetSignatureAsync(imageBytes, cancellationToken);
-
-        if (!moderation.Passed)
-        {
-            throw new ModerationFailedException($"Image {index} failed moderation with score {moderation.Score}");
-        }
-
-        // Upload to PhotoApi
-        return await _photoApiClient.UploadPhotoAsync(
-            brandId, userId, imageBytes, moderation.Signature, cancellationToken);
     }
 
     public async Task<IEnumerable<PhotoInfo>> GetPhotosAsync(
