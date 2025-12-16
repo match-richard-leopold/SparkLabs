@@ -20,13 +20,13 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 echo "Starting PhotoApi on port 5002..."
-ASPNETCORE_URLS="http://localhost:5002" dotnet run --project src/SparkLabs.PhotoApi --no-launch-profile &
+ASPNETCORE_ENVIRONMENT=Development ASPNETCORE_URLS="http://localhost:5002" dotnet run --project src/SparkLabs.PhotoApi --no-launch-profile &
 
 echo "Starting ProfileApi on port 5001..."
-ASPNETCORE_URLS="http://localhost:5001" dotnet run --project src/SparkLabs.ProfileApi --no-launch-profile &
+ASPNETCORE_ENVIRONMENT=Development ASPNETCORE_URLS="http://localhost:5001" dotnet run --project src/SparkLabs.ProfileApi --no-launch-profile &
 
 echo "Starting Worker..."
-dotnet run --project src/SparkLabs.Worker --no-launch-profile &
+DOTNET_ENVIRONMENT=Development dotnet run --project src/SparkLabs.Worker --no-launch-profile &
 
 sleep 3
 
