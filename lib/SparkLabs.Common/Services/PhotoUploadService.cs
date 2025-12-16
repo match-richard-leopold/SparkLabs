@@ -110,8 +110,7 @@ public class PhotoUploadService : IPhotoUploadService
             await semaphore.WaitAsync(cancellationToken);
             try
             {
-                var result = await UploadSinglePhotoAsync(
-                    brandId, userId, imageBytes, index, cancellationToken);
+                var result = await UploadPhotoAsync(brandId, userId, imageBytes, cancellationToken);
                 return (Index: index, Result: result, Error: (string?)null);
             }
             catch (Exception ex)
@@ -142,28 +141,6 @@ public class PhotoUploadService : IPhotoUploadService
             successful.Count, failed.Count, duration.TotalMilliseconds);
 
         return new BatchUploadResult(successful, failed, duration);
-    }
-
-    private async Task<PhotoUploadResult> UploadSinglePhotoAsync(
-        string brandId,
-        Guid userId,
-        byte[] imageBytes,
-        int index,
-        CancellationToken cancellationToken)
-    {
-        _logger.LogDebug("Processing photo {Index} for user {UserId}", index, userId);
-
-        // Get moderation signature (this is the rate-limited call)
-        var moderation = await _moderationClient.GetSignatureAsync(imageBytes, cancellationToken);
-
-        if (!moderation.Passed)
-        {
-            throw new ModerationFailedException($"Image {index} failed moderation with score {moderation.Score}");
-        }
-
-        // Upload to PhotoApi
-        return await _photoApiClient.UploadPhotoAsync(
-            brandId, userId, imageBytes, moderation.Signature, cancellationToken);
     }
 
     public async Task<IEnumerable<PhotoInfo>> GetPhotosAsync(
